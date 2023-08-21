@@ -1,4 +1,3 @@
-import { useRef } from "react";
 import { api } from "~/utils/api";
 
 export default function Example() {
