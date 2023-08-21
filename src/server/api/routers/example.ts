@@ -22,4 +22,13 @@ export const exampleRouter = createTRPCRouter({
       posts: results,
     };
   }),
+  login: publicProcedure
+    .input(z.object({ usernameOrEmail: z.string(), password: z.string() }))
+    .mutation(async ({ input: { usernameOrEmail, password } }) => {
+      const authData = await pb
+        .collection("users")
+        .authWithPassword(usernameOrEmail, password);
+
+      return authData;
+    }),
 });

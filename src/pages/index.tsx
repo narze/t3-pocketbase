@@ -46,6 +46,8 @@ export default function Home() {
             {hello.data ? hello.data.greeting : "Loading tRPC query..."}
           </p>
 
+          {posts.error ? `An error occurred ${posts.error.message}` : null}
+
           {posts.data ? (
             <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:gap-8">
               {posts.data.posts.items.map((post) => (
