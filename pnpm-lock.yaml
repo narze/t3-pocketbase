@@ -26,6 +26,9 @@ dependencies:
   next:
     specifier: ^13.4.2
     version: 13.4.2(react-dom@18.2.0)(react@18.2.0)
+  pocketbase:
+    specifier: ^0.16.0
+    version: 0.16.0
   react:
     specifier: 18.2.0
     version: 18.2.0
@@ -2281,6 +2284,10 @@ packages:
     resolution: {integrity: sha512-saLsH7WeYYPiD25LDuLRRY/i+6HaPYr6G1OUlN39otzkSTxKnubR9RTxS3/Kk50s1g2JTgFwWQDQyplC5/SHZg==}
     engines: {node: '>= 6'}
     dev: true
+
+  /pocketbase@0.16.0:
+    resolution: {integrity: sha512-sndPu4Mbu1Y2VefvO2gIa/No5aIdP6E5br9HUGomvDYSfkmGfBxJNkivJSSKlr9KwWnaF8otf14304UUeFGOrA==}
+    dev: false
 
   /postcss-import@15.1.0(postcss@8.4.27):
     resolution: {integrity: sha512-hpr+J05B2FVYUAXHeK1YyI267J/dDDhMU6B6civm8hSY1jYJnBXxzKDKDswzJmtLHryrjhnDjqqp/49t8FALew==}

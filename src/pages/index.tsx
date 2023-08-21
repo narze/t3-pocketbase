@@ -4,6 +4,7 @@ import { api } from "~/utils/api";
 
 export default function Home() {
   const hello = api.example.hello.useQuery({ text: "from tRPC" });
+  const posts = api.example.listPosts.useQuery();
 
   return (
     <>
@@ -44,6 +45,25 @@ export default function Home() {
           <p className="text-2xl text-white">
             {hello.data ? hello.data.greeting : "Loading tRPC query..."}
           </p>
+
+          {posts.data ? (
+            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:gap-8">
+              {posts.data.posts.items.map((post) => (
+                <div
+                  key={post.id}
+                  className="flex flex-col gap-4 rounded-xl bg-white/10 p-4 text-white hover:bg-white/20"
+                >
+                  <h3 className="text-2xl font-bold">{post.title}</h3>
+                  <div
+                    className="text-lg"
+                    dangerouslySetInnerHTML={{ __html: post.body as string }}
+                  ></div>
+                </div>
+              ))}
+            </div>
+          ) : (
+            <div className="text-2xl text-white">Loading posts...</div>
+          )}
         </div>
       </main>
     </>
