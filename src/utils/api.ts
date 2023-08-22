@@ -4,7 +4,7 @@
  *
  * We also create a few inference helpers for input and output types.
  */
-import { httpBatchLink, loggerLink } from "@trpc/client";
+import { TRPCClientErrorLike, httpBatchLink, loggerLink } from "@trpc/client";
 import { createTRPCNext } from "@trpc/next";
 import { type inferRouterInputs, type inferRouterOutputs } from "@trpc/server";
 import superjson from "superjson";
@@ -42,6 +42,30 @@ export const api = createTRPCNext<AppRouter>({
           url: `${getBaseUrl()}/api/trpc`,
         }),
       ],
+
+      queryClientConfig: {
+        defaultOptions: {
+          queries: {
+            // https://github.com/trpc/trpc/issues/1714#issuecomment-1085843212
+            retry(failureCount, _err) {
+              const err = _err as never as TRPCClientErrorLike<AppRouter>;
+              const MAX_QUERY_RETRIES = 3;
+
+              const code = err?.data?.code;
+
+              if (
+                code === "NOT_FOUND" ||
+                code === "BAD_REQUEST" ||
+                code === "UNAUTHORIZED"
+              ) {
+                // prevent refetch on queries that always will fail
+                return false;
+              }
+              return failureCount < MAX_QUERY_RETRIES;
+            },
+          },
+        },
+      },
     };
   },
   /**

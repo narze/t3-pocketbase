@@ -44,9 +44,11 @@ export default function Home() {
             ) : (
               <Link href={"/login"}>Login</Link>
             )}
-
-            {posts.error ? `An error occurred ${posts.error.message}` : null}
           </div>
+
+          {posts.error && posts.error.message != "UNAUTHORIZED"
+            ? `An error occurred ${posts.error.message}`
+            : null}
 
           {posts.data ? (
             <div className="space-y-4 text-white">
@@ -69,7 +71,9 @@ export default function Home() {
               )}
             </div>
           ) : (
-            <div className="text-2xl text-white">Loading posts...</div>
+            posts.isLoading && (
+              <div className="text-2xl text-white">Loading posts...</div>
+            )
           )}
         </div>
       </main>
