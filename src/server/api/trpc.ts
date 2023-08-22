@@ -13,6 +13,15 @@ import { type NextApiResponse, type NextApiRequest } from "next/types";
 import superjson from "superjson";
 import { ZodError } from "zod";
 
+import { env } from "~/env.mjs";
+
+import PocketBase from "pocketbase";
+const pb = new PocketBase("https://9tool-pb.narze.live");
+
+if (env.NODE_ENV !== "production") {
+  pb.autoCancellation(true);
+}
+
 /**
  * 1. CONTEXT
  *
@@ -37,11 +46,33 @@ type CreateContextOptions = {
  *
  * @see https://create.t3.gg/en/usage/trpc#-serverapitrpcts
  */
+const PB_AUTH_COOKIE_KEY = "t3pb_auth";
 const createInnerTRPCContext = (opts: CreateContextOptions) => {
+  const cookieString = opts.req.cookies[PB_AUTH_COOKIE_KEY];
+
+  if (cookieString) {
+    pb.authStore.loadFromCookie(
+      `${PB_AUTH_COOKIE_KEY}=${cookieString}`,
+      PB_AUTH_COOKIE_KEY
+    );
+  } else {
+    pb.authStore.clear();
+  }
+
   return {
-    cookies: opts.req.cookies,
-    setCookie: (cookie: string) => {
-      opts.res.setHeader("Set-Cookie", cookie);
+    pb,
+    authWithPassword: async (usernameOrEmail: string, password: string) => {
+      // TODO: Handle error
+      const authData = await pb
+        .collection("users")
+        .authWithPassword(usernameOrEmail, password);
+
+      opts.res.setHeader(
+        "Set-Cookie",
+        pb.authStore.exportToCookie({}, PB_AUTH_COOKIE_KEY)
+      );
+
+      return authData;
     },
   };
 };
