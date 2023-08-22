@@ -1,8 +1,6 @@
 import { z } from "zod";
 import { createTRPCRouter, publicProcedure } from "~/server/api/trpc";
 
-import { env } from "~/env.mjs";
-
 export const exampleRouter = createTRPCRouter({
   hello: publicProcedure
     .input(z.object({ text: z.string() }))
@@ -20,6 +18,13 @@ export const exampleRouter = createTRPCRouter({
       posts: results,
     };
   }),
+  getPost: publicProcedure
+    .input(z.object({ id: z.string() }))
+    .query(async ({ ctx, input }) => {
+      const result = await ctx.pb.collection("posts").getOne(input.id);
+
+      return result;
+    }),
   login: publicProcedure
     .input(z.object({ usernameOrEmail: z.string(), password: z.string() }))
     .mutation(async ({ ctx, input: { usernameOrEmail, password } }) => {

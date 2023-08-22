@@ -47,20 +47,26 @@ export default function Home() {
 
             {posts.error ? `An error occurred ${posts.error.message}` : null}
           </div>
+
           {posts.data ? (
-            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:gap-8">
-              {posts.data.posts.items.map((post) => (
-                <div
-                  key={post.id}
-                  className="flex flex-col gap-4 rounded-xl bg-white/10 p-4 text-white hover:bg-white/20"
-                >
-                  <h3 className="text-2xl font-bold">{post.title}</h3>
-                  <div
-                    className="text-lg"
-                    dangerouslySetInnerHTML={{ __html: post.body as string }}
-                  ></div>
+            <div className="space-y-4 text-white">
+              <h1 className="text-center text-4xl">Posts</h1>
+
+              {me.data ? (
+                <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:gap-8">
+                  {posts.data.posts.items.map((post) => (
+                    <Link
+                      key={post.id}
+                      href={`/posts/${post.id}`}
+                      className="flex flex-col gap-4 rounded-xl bg-white/10 p-4 text-white hover:bg-white/20"
+                    >
+                      <h3 className="text-2xl font-bold">{post.title}</h3>
+                    </Link>
+                  ))}
                 </div>
-              ))}
+              ) : (
+                <p className="text-sm">Login to see posts</p>
+              )}
             </div>
           ) : (
             <div className="text-2xl text-white">Loading posts...</div>
