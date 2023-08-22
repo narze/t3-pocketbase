@@ -12,6 +12,7 @@ import { type CreateNextContextOptions } from "@trpc/server/adapters/next";
 import { type NextApiResponse, type NextApiRequest } from "next/types";
 import superjson from "superjson";
 import { ZodError } from "zod";
+import { pb } from "~/server/pb";
 
 /**
  * 1. CONTEXT
@@ -21,11 +22,7 @@ import { ZodError } from "zod";
  * These allow you to access things when processing a request, like the database, the session, etc.
  */
 
-type CreateContextOptions = {
-  // cookies: NextApiRequest["cookies"];
-  req: NextApiRequest;
-  res: NextApiResponse;
-};
+type CreateContextOptions = Record<string, never>;
 
 /**
  * This helper generates the "internals" for a tRPC context. If you need to use it, you can export
@@ -39,10 +36,7 @@ type CreateContextOptions = {
  */
 const createInnerTRPCContext = (opts: CreateContextOptions) => {
   return {
-    cookies: opts.req.cookies,
-    setCookie: (cookie: string) => {
-      opts.res.setHeader("Set-Cookie", cookie);
-    },
+    pb,
   };
 };
 
@@ -53,10 +47,7 @@ const createInnerTRPCContext = (opts: CreateContextOptions) => {
  * @see https://trpc.io/docs/context
  */
 export const createTRPCContext = (opts: CreateNextContextOptions) => {
-  return createInnerTRPCContext({
-    req: opts.req,
-    res: opts.res,
-  });
+  return createInnerTRPCContext({});
 };
 
 /**
