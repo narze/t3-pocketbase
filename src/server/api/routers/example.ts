@@ -1,5 +1,9 @@
 import { z } from "zod";
-import { createTRPCRouter, publicProcedure } from "~/server/api/trpc";
+import {
+  createTRPCRouter,
+  publicProcedure,
+  userProcedure,
+} from "~/server/api/trpc";
 
 export const exampleRouter = createTRPCRouter({
   hello: publicProcedure
@@ -9,7 +13,7 @@ export const exampleRouter = createTRPCRouter({
         greeting: `Hello ${input.text}`,
       };
     }),
-  listPosts: publicProcedure.query(async ({ ctx }) => {
+  listPosts: userProcedure.query(async ({ ctx }) => {
     const results = await ctx.pb.collection("posts").getList(1, 50, {
       // filter: 'created >= "2022-01-01 00:00:00" && someField1 != someField2',
     });
@@ -18,7 +22,7 @@ export const exampleRouter = createTRPCRouter({
       posts: results,
     };
   }),
-  getPost: publicProcedure
+  getPost: userProcedure
     .input(z.object({ id: z.string() }))
     .query(async ({ ctx, input }) => {
       const result = await ctx.pb.collection("posts").getOne(input.id);
@@ -32,13 +36,13 @@ export const exampleRouter = createTRPCRouter({
 
       return authData;
     }),
-  logout: publicProcedure.mutation(({ ctx }) => {
+  logout: userProcedure.mutation(({ ctx }) => {
     ctx.logout();
 
     return true;
   }),
-  me: publicProcedure.query(({ ctx }) => {
-    const user = ctx.pb.authStore.model;
+  me: userProcedure.query(({ ctx }) => {
+    const user = ctx.user;
 
     return user;
   }),
