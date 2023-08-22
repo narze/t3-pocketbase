@@ -1,7 +1,12 @@
 import { api } from "~/utils/api";
 
 export default function Example() {
-  const { mutate, error, isSuccess, data } = api.example.login.useMutation();
+  const { mutate, error, isSuccess, data } = api.example.login.useMutation({
+    onSuccess: () => {
+      // Redirect to homepage
+      window.location.href = "/";
+    },
+  });
 
   function login(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -24,7 +29,6 @@ export default function Example() {
         <body class="h-full">
         ```
       */}
-      {isSuccess && <div>Logged in! {JSON.stringify(data)}</div>}
       {error && <p>Something went wrong! {error.message}</p>}
 
       <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">

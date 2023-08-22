@@ -27,5 +27,14 @@ export const exampleRouter = createTRPCRouter({
 
       return authData;
     }),
-  // TODO: logout procedure
+  logout: publicProcedure.mutation(({ ctx }) => {
+    ctx.logout();
+
+    return true;
+  }),
+  me: publicProcedure.query(({ ctx }) => {
+    const user = ctx.pb.authStore.model;
+
+    return user;
+  }),
 });

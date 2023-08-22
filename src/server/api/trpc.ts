@@ -74,6 +74,14 @@ const createInnerTRPCContext = (opts: CreateContextOptions) => {
 
       return authData;
     },
+    logout: () => {
+      pb.authStore.clear();
+
+      opts.res.setHeader(
+        "Set-Cookie",
+        pb.authStore.exportToCookie({}, PB_AUTH_COOKIE_KEY)
+      );
+    },
   };
 };
 
