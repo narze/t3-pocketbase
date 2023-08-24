@@ -18,7 +18,9 @@ export default function Post() {
     <main className="container mx-auto space-y-4">
       <Link href="/">Back</Link>
       <h1 className="text-3xl">{post.data.title}</h1>
-      <div dangerouslySetInnerHTML={{ __html: post.data.body as string }}></div>
+      <div
+        dangerouslySetInnerHTML={{ __html: post.data.description as string }}
+      ></div>
     </main>
   );
 }

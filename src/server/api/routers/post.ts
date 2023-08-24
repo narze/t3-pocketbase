@@ -29,4 +29,22 @@ export const postRouter = createTRPCRouter({
 
       return result;
     }),
+  createPost: userProcedure
+    .input(
+      z.object({
+        title: z.string(),
+        description: z.string(),
+        options: z.array(z.string()),
+      })
+    )
+    .mutation(async ({ ctx, input }) => {
+      const result = await ctx.pb.collection("posts").create({
+        title: input.title,
+        description: input.description,
+        options: input.options,
+        active: true,
+      });
+
+      return result;
+    }),
 });

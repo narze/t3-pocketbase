@@ -58,16 +58,28 @@ export default function Home() {
               <h1 className="text-center text-4xl">Posts</h1>
 
               {me.data ? (
-                <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:gap-8">
-                  {posts.data.posts.items.map((post) => (
-                    <Link
-                      key={post.id}
-                      href={`/posts/${post.id}`}
-                      className="flex flex-col gap-4 rounded-xl bg-white/10 p-4 text-white hover:bg-white/20"
-                    >
-                      <h3 className="text-2xl font-bold">{post.title}</h3>
-                    </Link>
-                  ))}
+                <div className="flex flex-col gap-4">
+                  <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:gap-8">
+                    {posts.data.posts.items.map((post) => (
+                      <Link
+                        key={post.id}
+                        href={`/posts/${post.id}`}
+                        className="flex flex-col gap-4 rounded-xl bg-white/10 p-4 text-white hover:bg-white/20"
+                      >
+                        <h3 className="text-2xl font-bold">{post.title}</h3>
+                      </Link>
+                    ))}
+                  </div>
+                  <div>
+                    <div className="flex justify-center">
+                      <Link
+                        className="rounded bg-blue-500 px-4 py-2 text-center font-bold text-white hover:bg-blue-700"
+                        href={`/posts/new`}
+                      >
+                        Create new post
+                      </Link>
+                    </div>
+                  </div>
                 </div>
               ) : (
                 <p className="text-sm">Login to see posts</p>
