@@ -61,11 +61,18 @@ const createInnerTRPCContext = (opts: CreateContextOptions) => {
 
   return {
     pb,
-    authWithPassword: async (usernameOrEmail: string, password: string) => {
+    authWithPassword: async (
+      usernameOrEmail: string,
+      password: string,
+      isAdmin: boolean
+    ) => {
       // TODO: Handle error
-      const authData = await pb
-        .collection("users")
-        .authWithPassword(usernameOrEmail, password);
+      const collection = isAdmin ? pb.admins : pb.collection("users");
+
+      const authData = await collection.authWithPassword(
+        usernameOrEmail,
+        password
+      );
 
       opts.res.setHeader(
         "Set-Cookie",

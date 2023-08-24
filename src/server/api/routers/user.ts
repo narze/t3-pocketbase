@@ -7,12 +7,24 @@ import {
 
 export const userRouter = createTRPCRouter({
   login: publicProcedure
-    .input(z.object({ usernameOrEmail: z.string(), password: z.string() }))
-    .mutation(async ({ ctx, input: { usernameOrEmail, password } }) => {
-      const authData = await ctx.authWithPassword(usernameOrEmail, password);
+    .input(
+      z.object({
+        usernameOrEmail: z.string(),
+        password: z.string(),
+        isAdmin: z.boolean().default(false),
+      })
+    )
+    .mutation(
+      async ({ ctx, input: { usernameOrEmail, password, isAdmin } }) => {
+        const authData = await ctx.authWithPassword(
+          usernameOrEmail,
+          password,
+          isAdmin
+        );
 
-      return authData;
-    }),
+        return authData;
+      }
+    ),
   logout: userProcedure.mutation(({ ctx }) => {
     ctx.logout();
 
