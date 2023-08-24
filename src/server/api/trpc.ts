@@ -64,7 +64,7 @@ const createInnerTRPCContext = (opts: CreateContextOptions) => {
     authWithPassword: async (
       usernameOrEmail: string,
       password: string,
-      isAdmin: boolean
+      isAdmin = false
     ) => {
       // TODO: Handle error
       const collection = isAdmin ? pb.admins : pb.collection("users");
