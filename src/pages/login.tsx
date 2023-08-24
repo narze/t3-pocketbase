@@ -1,7 +1,7 @@
 import { api } from "~/utils/api";
 
-export default function Example() {
-  const { mutate, error, isSuccess, data } = api.example.login.useMutation({
+export default function Login() {
+  const { mutate, error } = api.user.login.useMutation({
     onSuccess: () => {
       // Redirect to homepage
       window.location.href = "/";

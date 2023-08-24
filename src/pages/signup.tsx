@@ -1,7 +1,7 @@
 import { api } from "~/utils/api";
 
 export default function SignUp() {
-  const { mutate, error } = api.example.createUser.useMutation({
+  const { mutate, error } = api.user.createUser.useMutation({
     onSuccess: () => {
       // Redirect to homepage
       window.location.href = "/";

@@ -4,7 +4,7 @@ import { api } from "~/utils/api";
 
 export default function Post() {
   const router = useRouter();
-  const post = api.example.getPost.useQuery({ id: router.query.id as string });
+  const post = api.post.getPost.useQuery({ id: router.query.id as string });
 
   if (post.isLoading) {
     return <>Loading...</>;

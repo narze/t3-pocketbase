@@ -3,9 +3,9 @@ import Link from "next/link";
 import { api } from "~/utils/api";
 
 export default function Home() {
-  const me = api.example.me.useQuery();
-  const posts = api.example.listPosts.useQuery();
-  const logout = api.example.logout.useMutation({
+  const me = api.user.me.useQuery();
+  const posts = api.post.listPosts.useQuery();
+  const logout = api.user.logout.useMutation({
     onSuccess: () => {
       window.location.href = "/";
     },
