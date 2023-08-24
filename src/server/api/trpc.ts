@@ -16,7 +16,7 @@ import { ZodError } from "zod";
 import { env } from "~/env.mjs";
 
 import PocketBase from "pocketbase";
-const pb = new PocketBase("https://9tool-pb.narze.live");
+const pb = new PocketBase(env.POCKETBASE_URL);
 
 if (env.NODE_ENV !== "production") {
   pb.autoCancellation(true);

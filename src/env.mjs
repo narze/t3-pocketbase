@@ -8,6 +8,7 @@ export const env = createEnv({
    */
   server: {
     NODE_ENV: z.enum(["development", "test", "production"]),
+    POCKETBASE_URL: z.string().url().default("https://pocketbase.io"),
   },
 
   /**
