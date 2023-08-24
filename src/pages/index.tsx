@@ -91,6 +91,15 @@ export default function Home() {
             )
           )}
         </div>
+        <div className="fixed bottom-0 left-0 right-0 py-2 text-center text-white">
+          <a
+            href="https://github.com/narze/t3-pocketbase"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            View source on GitHub
+          </a>
+        </div>
       </main>
     </>
   );
