@@ -46,4 +46,22 @@ export const exampleRouter = createTRPCRouter({
 
     return user;
   }),
+  createUser: publicProcedure
+    .input(
+      z.object({
+        email: z.string(),
+        password: z.string(),
+        passwordConfirm: z.string(),
+      })
+    )
+    .mutation(async ({ ctx, input }) => {
+      await ctx.pb.collection("users").create({
+        // username: "test",
+        email: input.email,
+        password: input.password,
+        passwordConfirm: input.passwordConfirm,
+      });
+
+      return await ctx.authWithPassword(input.email, input.password);
+    }),
 });

@@ -42,7 +42,10 @@ export default function Home() {
                 </div>
               </div>
             ) : (
-              <Link href={"/login"}>Login</Link>
+              <div className="flex flex-col items-center gap-3">
+                <Link href={"/login"}>Login</Link>
+                <Link href={"/signup"}>Sign Up</Link>
+              </div>
             )}
           </div>
 
